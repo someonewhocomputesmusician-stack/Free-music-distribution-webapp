@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Music Distribution Dashboard</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+        background:#111;
+            color:#fff;
+                max-width:900px;
+                    margin:auto;
+                        padding:20px;
+                        }
+                        .card{
+                            background:#1e1e1e;
+                                padding:20px;
+                                    border-radius:12px;
+                                        margin-bottom:20px;
+                                        }
+                                        input,textarea{
+                                            width:100%;
+                                                padding:10px;
+                                                    margin-top:8px;
+                                                        margin-bottom:12px;
+                                                            border:none;
+                                                                border-radius:6px;
+                                                                }
+                                                                button{
+                                                                    padding:12px 20px;
+                                                                        border:none;
+                                                                            border-radius:8px;
+                                                                                cursor:pointer;
+                                                                                }
+                                                                                .primary{
+                                                                                    background:#ff0000;
+                                                                                        color:white;
+                                                                                        }
+                                                                                        .success{
+                                                                                            background:#28a745;
+                                                                                                color:white;
+                                                                                                }
+                                                                                                </style>
+                                                                                                </head>
+                                                                                                <body>
+
+                                                                                                <h1>Music Distribution Service</h1>
+
+                                                                                                <div class="card">
+                                                                                                    <h2>OAuth Settings</h2>
+
+                                                                                                        <label>Google Client ID</label>
+                                                                                                            <input id="clientId">
+
+                                                                                                                <label>Redirect URI</label>
+                                                                                                                    <input id="redirectUri">
+
+                                                                                                                        <label>Access Token (Optional)</label>
+                                                                                                                            <input id="accessToken">
+
+                                                                                                                                <label>Refresh Token (Not Recommended In Browser)</label>
+                                                                                                                                    <input id="refreshToken">
+
+                                                                                                                                        <button class="primary" onclick="saveConfig()">
+                                                                                                                                                Save Configuration
+                                                                                                                                                    </button>
+                                                                                                                                                    </div>
+
+                                                                                                                                                    <div class="card">
+                                                                                                                                                        <h2>Release Metadata</h2>
+
+                                                                                                                                                            <label>Song Title</label>
+                                                                                                                                                                <input id="title">
+
+                                                                                                                                                                    <label>Artist Name</label>
+                                                                                                                                                                        <input id="artist">
+
+                                                                                                                                                                            <label>Description</label>
+                                                                                                                                                                                <textarea id="description"></textarea>
+
+                                                                                                                                                                                    <label>Video File</label>
+                                                                                                                                                                                        <input type="file" id="video">
+
+                                                                                                                                                                                            <button class="success" onclick="saveDraft()">
+                                                                                                                                                                                                    Save Draft
+                                                                                                                                                                                                        </button>
+                                                                                                                                                                                                        </div>
+
+                                                                                                                                                                                                        <div class="card">
+                                                                                                                                                                                                            <h2>Distribution</h2>
+
+                                                                                                                                                                                                                <button class="primary" onclick="openYouTubeUpload()">
+                                                                                                                                                                                                                        Open Official YouTube Upload Page
+                                                                                                                                                                                                                            </button>
+                                                                                                                                                                                                                            </div>
+
+                                                                                                                                                                                                                            <script>
+
+                                                                                                                                                                                                                            function saveConfig(){
+                                                                                                                                                                                                                                localStorage.setItem("clientId",
+                                                                                                                                                                                                                                        document.getElementById("clientId").value);
+
+                                                                                                                                                                                                                                            localStorage.setItem("redirectUri",
+                                                                                                                                                                                                                                                    document.getElementById("redirectUri").value);
+
+                                                                                                                                                                                                                                                        localStorage.setItem("accessToken",
+                                                                                                                                                                                                                                                                document.getElementById("accessToken").value);
+
+                                                                                                                                                                                                                                                                    localStorage.setItem("refreshToken",
+                                                                                                                                                                                                                                                                            document.getElementById("refreshToken").value);
+
+                                                                                                                                                                                                                                                                                alert("Configuration saved.");
+                                                                                                                                                                                                                                                                                }
+
+                                                                                                                                                                                                                                                                                function saveDraft(){
+
+                                                                                                                                                                                                                                                                                    const draft = {
+                                                                                                                                                                                                                                                                                            title: document.getElementById("title").value,
+                                                                                                                                                                                                                                                                                                    artist: document.getElementById("artist").value,
+                                                                                                                                                                                                                                                                                                            description: document.getElementById("description").value
+                                                                                                                                                                                                                                                                                                                };
+
+                                                                                                                                                                                                                                                                                                                    localStorage.setItem(
+                                                                                                                                                                                                                                                                                                                            "releaseDraft",
+                                                                                                                                                                                                                                                                                                                                    JSON.stringify(draft)
+                                                                                                                                                                                                                                                                                                                                        );
+
+                                                                                                                                                                                                                                                                                                                                            alert("Draft saved.");
+                                                                                                                                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                                                                                                                                            function openYouTubeUpload(){
+
+                                                                                                                                                                                                                                                                                                                                                localStorage.setItem("pendingTitle",
+                                                                                                                                                                                                                                                                                                                                                        document.getElementById("title").value);
+
+                                                                                                                                                                                                                                                                                                                                                            localStorage.setItem("pendingDescription",
+                                                                                                                                                                                                                                                                                                                                                                    document.getElementById("description").value);
+
+                                                                                                                                                                                                                                                                                                                                                                        window.open(
+                                                                                                                                                                                                                                                                                                                                                                                "https://studio.youtube.com",
+                                                                                                                                                                                                                                                                                                                                                                                        "_blank"
+                                                                                                                                                                                                                                                                                                                                                                                            );
+                                                                                                                                                                                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                                                                                                                                                                                            window.onload = () => {
+
+                                                                                                                                                                                                                                                                                                                                                                                                document.getElementById("clientId").value =
+                                                                                                                                                                                                                                                                                                                                                                                                        localStorage.getItem("clientId") || "";
+
+                                                                                                                                                                                                                                                                                                                                                                                                            document.getElementById("redirectUri").value =
+                                                                                                                                                                                                                                                                                                                                                                                                                    localStorage.getItem("redirectUri") || "";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                        document.getElementById("accessToken").value =
+                                                                                                                                                                                                                                                                                                                                                                                                                                localStorage.getItem("accessToken") || "";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                    document.getElementById("refreshToken").value =
+                                                                                                                                                                                                                                                                                                                                                                                                                                            localStorage.getItem("refreshToken") || "";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                            };
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                            </script>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                            </body>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            </html>
